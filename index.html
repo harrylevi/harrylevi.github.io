@@ -3,16 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Sandeep Seelam — Digital Experience</title>
+<title>Sandeep Seelam — SANEP TALK</title>
 
 <style>
 
 /* =========================
    GLOBAL
-========================= */
-
-* {
+=========================* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -20,49 +17,125 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #05070d;
-    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #060907;
+    color: #f0f5f1;
     overflow-x: hidden;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
-section {
-    padding: 100px 8%;
+section { padding: 130px 8%; }
+
+::selection {
+    background: #6ee7a0;
+    color: #060907;
 }
 
 /* =========================
-   BACKGROUND
+   OPENING INTRO / PRELOADER========================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    background: #060907;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 1 ease, visibility 1s ease;
+}
+
+#intro.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-line {
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.intro-line span {
+    display: inline-block;
+    transform: translateY(120%);
+    animation: rise 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.intro-small {
+    font-size: 14px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #5f8a6e;
+    animation-delay: 0.2s !important;
+}
+
+.intro-title {
+    font-size: clamp(34px, 7vw, 72px);
+    font-weight: 700;
+    letter-spacing: -2px;
+    animation-delay: 0.55s !important;
+}
+
+.intro-title em {
+    font-style: normal;
+    color: #6ee7a0;
+}
+
+.intro-bar {
+    margin-top: 40px;
+    width: 140px;
+    height: 2px;
+    background: rgba(110, 231, 160, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fade 0.6s ease 0.9s forwards;
+}
+
+.intro-bar::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #6ee7a0;
+    animation: load 1.6s ease 0.9s forwards;
+}
+
+@keyframes rise { to { transform: translateY(0); } }
+@keyframes fade { to { opacity: 1; } }
+@keyframes load { to { width: 100%; } }
+
+/* =========================
+   BACKGROUND GLOW
 ========================= */
 
 body::before {
     content: "";
     position: fixed;
-    width: 600px;
-    height: 600px;
-    background: #2563eb;
-    filter: blur(180px);
-    opacity: 0.15;
-    top: -200px;
-    left: -200px;
+    width: 650px;
+    height: 650px;
+    background: #34d399;
+    filter: blur(200px);
+    opacity: 0.10;
+    top: -220px;
+    left: -180px;
     z-index: -2;
 }
 
 body::after {
     content: "";
     position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #7c3aed;
-    filter: blur(180px);
-    opacity: 0.12;
-    bottom: -200px;
-    right: -200px;
-    z-index: -2;
+    width: 550px;
+    height: 550px;
+    background: #10b1;
+    filter: blur(200px);
+    opacity: 0.07;
+    bottom: -220px;
+    right: -180px;
+ z-index: -2;
 }
 
 /* =========================
@@ -71,51 +144,42 @@ body::after {
 
 nav {
     position: fixed;
-    top: 20px;
+    top: 18px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 1200px;
-
-    padding: 16px 25px;
-
+    max-width: 1150px;
+    padding: 15px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    background: rgba(15, 23, 42, 0.65);
+    background: rgba(10, 15, 12, 0.65);
     backdrop-filter: blur(20px);
-
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(110, 231, 160, 0.10);
     border-radius: 18px;
-
     z-index: 1000;
 }
 
 .logo {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-.logo span {
-    color: #60a5fa;
-}
+.logo span { color: #6ee7a0; }
 
 .nav-links {
     display: flex;
-    gap: 30px;
+    gap: 32px;
 }
 
 .nav-links a {
     font-size: 14px;
-    color: #cbd5e1;
+    color: #9fb8a8;
     transition: 0.3s;
 }
 
-.nav-links a:hover {
-    color: white;
-}
+.nav-links a:hover { color: #6ee7a0; }
 
 /* =========================
    HERO
@@ -123,80 +187,61 @@ nav {
 
 .hero {
     min-height: 100vh;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     text-align: center;
-
     position: relative;
 }
 
 .hero-content {
     max-width: 900px;
+    opacity: 0;
+    transform: translateY(30px);
+   : appear 1.2s cubic-bezier(0.16, 1,0.3, 1) 2.4s forwards;
 }
+
+@keyframes appear { to { opacity: 1; transform: translateY(0); } }
 
 .badge {
     display: inline-block;
-
-    padding: 8px 18px;
-
-    border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 20px;
+    border: 1px solid rgba(110, 231, 160, 0.25);
     border-radius: 50px;
-
-    background: rgba(255,255,255,0.04);
-
-    color: #93c5fd;
-
-    font-size: 13px;
-    letter-spacing: 2px;
-
-    margin-bottom: 30px;
+    background: rgba(110, 231, 160, 0.06);
+    color: #6ee7a0;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 34px;
 }
 
 .hero h1 {
-    font-size: clamp(60px, 10vw, 130px);
-    line-height: 0.95;
-
-    letter-spacing: -6px;
-
-    background: linear-gradient(
-        120deg,
-        white,
-        #93c5fd,
-        #c4b5fd,
-        white
-    );
-
+    font-size: clamp(52px, 9vw, 110px);
+    line-height: 1.02;
+    letter-spacing: -4px;
+    font-weight: 700;
+    background: linear-gradient(120deg, #f0f5f1, #6ee7a0, #a7f3c9, #f0f5f1);
     background-size: 300%;
-
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    animation: gradient 6s infinite linear;
+    animation: gradient 8s infinite linear;
 }
 
 .hero h2 {
-    margin-top: 25px;
-
-    font-size: clamp(22px, 3vw, 32px);
-
+    margin-top: 28px;
+    font-size: clamp(20px, 3vw, 28px);
     font-weight: 400;
-
-    color: #94a3b8;
+    color: #9fb8a8;
 }
 
 .hero p {
-    max-width: 650px;
-
-    margin: 25px auto;
-
-    color: #64748b;
-
+    max-width: 620px;
+    margin: 26px auto;
+    color: #6f8577;
     font-size: 17px;
-
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 /* =========================
@@ -204,69 +249,56 @@ nav {
 ========================= */
 
 .buttons {
-    margin-top: 35px;
-
+    margin-top: 38px;
     display: flex;
     justify-content: center;
     gap: 15px;
-
     flex-wrap: wrap;
 }
 
-.btn {
-    padding: 14px 25px;
-
-    border-radius: 12px;
-
+.btn    padding: 14px 28px;
+    border-radius: 14px;
     font-weight: 600;
-
+    font-size: 15px;
     transition: 0.3s;
 }
 
 .primary {
-    background: white;
-    color: #05070d;
+    background: #6ee7a0;
+    color: #060907;
 }
 
 .primary:hover {
     transform: translateY(-4px);
-    box-shadow: 0 15px 40px rgba(255,255,255,0.15);
+    box-shadow: 0 15px 40px rgba(110, 231, 160, 0.25);
 }
 
 .secondary {
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(110, 231, 160, 0.2);
+    background: rgba110, 231, 160, 0.);
+    color: #c9e5d3;
 }
 
 .secondary:hover {
-    background: rgba(255,255,255,0.1);
-}
+    background: rgba(110, 231, , 0.1}
 
 /* =========================
    SECTION TITLE
-========================= */
+================ */
 
 .section-title {
     text-align: center;
-
-    margin-bottom: 60px;
-}
-
+    margin-bottom: 70px;
 .section-title span {
-    color: #60a5fa;
-
-    font-size: 13px;
-
-    letter-spacing: 3px;
-
+    color: #6ee7a0;
+    font-size: 12px;
+    letter-spacing: 4px;
     text-transform: uppercase;
 }
 
 .section-title h2 {
-    margin-top: 15px;
-
-    font-size: clamp(35px, 5vw, 55px);
-
+    margin-top: 16px;
+    font-size: clamp(34px, 5vw, 52px);
     letter-spacing: -2px;
 }
 
@@ -276,55 +308,40 @@ nav {
 
 .cards {
     max-width: 1100px;
-
     margin: auto;
-
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 20px;
 }
 
 .card {
-    padding: 35px;
-
-    min-height: 230px;
-
-    background: rgba(255,255,255,0.035);
-
-    border: 1px solid rgba(255,255,255,0.08);
-
-    border-radius: 22px;
-
-    backdrop-filter: blur(15px);
-
+    padding: 40px 35px;
+    min-height: 240px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(110, 231,160, 0.10);
+    border-radius: 24px;
     transition: 0.4s;
 }
 
 .card:hover {
     transform: translateY(-8px);
-
-    border-color: rgba(147,197,253,0.4);
-
-    background: rgba(255,255,255,0.06);
+    border-color: rgba(110, 231, 160, 0.35);
+    background: rgba(110, 231, 160, 0.05);
 }
 
 .card-icon {
-    font-size: 30px;
-
-    margin-bottom: 25px;
+    font-size: 28px;
+    margin-bottom: 24px;
+    color: #6ee7a0;
 }
 
 .card h3 {
-    font-size: 22px;
-
-    margin-bottom: 15px;
+    font-size: 21px;
+    margin-bottom: 14px;
 }
 
 .card p {
-    color: #64748b;
-
+    color: #6f8577;
     line-height: 1.7;
 }
 
@@ -334,60 +351,70 @@ nav {
 
 .about {
     max-width: 1000px;
-
     margin: auto;
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
-    gap: 60px;
-
+    gap: 70px;
     align-items: center;
 }
 
 .about-box {
-    height: 400px;
-
-    border-radius: 30px;
-
+    height: 420px;
+    border-radius: 32px;
     background:
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(96,165,250,0.3),
-            transparent 45%
-        ),
-        linear-gradient(
-            135deg,
-            #111827,
-            #020617
-        );
-
-    border: 1px solid rgba(255,255,255,0.08);
-
+        radial-gradient(circle at 30% 30%, rgba(110, 231, 160, 0.2), transparent 50%),
+        linear-gradient(135deg, #0d1410, #060907);
+    border: 1px solid rgba(110, 231, 160, 0.12);
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
-    font-size: 80px;
-
-    box-shadow: 0 30px 100px rgba(0,0,0,0.4);
+    font-size: 90px;
+    font-weight: 700;
+    color: #6ee7a0;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
 }
 
 .about-text h2 {
-    font-size: 45px;
-
-    margin-bottom: 20px;
+    font-size: 42px;
+    margin-bottom: 22px;
+    letter-spacing: -1px;
 }
 
 .about-text p {
-    color: #64748b;
-
-    line-height: 1.8;
-
+    color: #6f8577;
+    line-height: 1.9;
     margin-bottom: 20px;
+}
+
+/* =========================
+   QUOTE STRIP (Apple-style)
+========================= */
+
+.quote-strip {
+    text-align: center;
+    max-width: 820px;
+    margin: auto;
+}
+
+.quote-strip blockquote {
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.3;
+    color: #c9e5d3;
+}
+
+.quote-strip blockquote em {
+    font-style: normal;
+    color: #6ee7a0;
+}
+
+.quote-strip p {
+    margin-top: 24px;
+    color: #6f8577;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 /* =========================
@@ -396,35 +423,23 @@ nav {
 
 .contact-box {
     max-width: 900px;
-
     margin: auto;
-
-    padding: 60px 40px;
-
+    padding: 70px 40px;
     text-align: center;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(59,130,246,0.12),
-            rgba(124,58,237,0.12)
-        );
-
-    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 32px;
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(16, 185, 129, 0.06));
+    border: 1px solid rgba(110, 231, 160, 0.14);
 }
 
 .contact-box h2 {
-    font-size: 45px;
-
+    font-size: clamp(34px, 5vw, 46px);
     margin-bottom: 20px;
+    letter-spacing: -1px;
 }
 
 .contact-box p {
-    color: #64748b;
-
-    margin-bottom: 30px;
+    color: #6f8577;
+    margin-bottom: 32px;
 }
 
 /* =========================
@@ -432,314 +447,246 @@ nav {
 ========================= */
 
 footer {
-    padding: 40px 8%;
-
+    padding: 45px 8%;
     text-align: center;
-
-    border-top: 1px solid rgba(255,255,255,0.05);
-
-    color: #475569;
-
+    border-top: 1px solid rgba(110, 231, 160, 0.08);
+    color: #4c5f54;
     font-size: 14px;
 }
+
+footer span { color: #6ee7a0; }
 
 /* =========================
    ANIMATIONS
 ========================= */
 
 @keyframes gradient {
+    0%   { background-position: 0%; }
+    50%  { background-position: 100%; }
+    100% { background-position: 0%; }
+}
 
-    0% {
-        background-position: 0%;
-    }
+/* Scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-    50% {
-        background-position: 100%;
-    }
-
-    100% {
-        background-position: 0%;
-    }
-
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* =========================
    MOBILE
 ========================= */
 
-@media(max-width: 800px) {
-
-    .nav-links {
-        display: none;
-    }
-
-    section {
-        padding: 80px 6%;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .about {
-        grid-template-columns: 1fr;
-    }
-
-    .about-box {
-        height: 300px;
-    }
-
-    .hero h1 {
-        letter-spacing: -3px;
-    }
-
+@media-width: 800px) {
+    .nav-links { display: none; }
+    section { padding: 90px 6%; }
+    .cards { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; }
+    .about-box { height: 280px; font-size: 64px; }
+    .hero h1 { letter-spacing: -2px; }
+    .hero-content { animation-delay: 2.2s; }
 }
 
 </style>
 </head>
 
-
 <body>
 
+<!-- =========================
+     OPENING INTRO
+========================= -->
+
+<div id="intro">
+    <div class="intro-line">
+        <span class="intro-small">Welcome to</span    </div>
+    <div="intro-line">
+ <span classintro-title">san<em>DE</em> talks</span>
+    </div>
+    <div class="intro-bar"></div>
+</div>
 
 <!-- =========================
      NAVIGATION
 ========================= -->
 
 <nav>
-
     <div class="logo">
-        Sandeep<span>Seelam</span>
+        san<span>DEEP</span> talks
     </div>
-
     <div class="nav-links">
-
         <a href="#home">Home</a>
-
         <a href="#about">About</a>
-
-        <a href="#services">Services</a>
-
+        <a href="#topics">Topics</a>
         <a href="#contact">Contact</a>
-
     </div>
-
 </nav>
-
-
 
 <!-- =========================
      HERO
 ========================= -->
 
 <section class="hero" id="home">
-
     <div class="hero-content">
-
         <div class="badge">
-            WELCOME TO Sandeep Seelam
+            Deep talks · Real growth
         </div>
-
         <h1>
             Think.<br>
-            Create.<br>
-            Evolve.
+            Reflect.<br>
+            Grow.
         </h1>
-
         <h2>
-            A digital space built for ideas.
+            Conversations that make you look inward.
         </h2>
-
         <p>
-            Welcome to Sandeep Seelam — a modern digital experience
-            where creativity, technology and ideas come together.
+            Welcome to sanDEEP talks — a space for deep thinking,
+            self-awareness, well-being and honest reflections on
+            how we live, work and grow.
         </p>
-
         <div class="buttons">
-
-            <a href="#services" class="btn primary">
-                Explore
-            </a>
-
-            <a href="#contact" class="btn secondary">
-                Get in touch
-            </a>
-
+            <a href="#topics" class="btn primary">Start Reading</a>
+            <a href="#contact" class="btn secondary">Get in touch</a>
         </div>
-
     </div>
-
 </section>
 
+<!-- =========================
+     QUOTE STRIP
+========================= -->
 
+<section>
+    <div class="quote-strip reveal">
+        <blockquote>
+            "Most people never stop to ask<br>
+            <em>why</em> they're living the way they live."
+        </blockquote>
+        <p>This space exists to change that.</p>
+    </div>
+</section>
 
 <!-- =========================
      ABOUT
 ========================= -->
 
 <section id="about">
-
-    <div class="section-title">
-
+    <div="section-title reveal">
         <span>ABOUT</span>
-
-        <h2>
-            More than a website.
-        </h2>
-
+        <h2>More than a blog.</h2>
     </div>
-
 
     <div class="about">
-
-        <div class="about-box">
-            H
-        </div>
-
-        <div class="about-text">
-
-            <h2>
-                Welcome to my space.
-            </h2>
-
+        <div class="about-box reveal">S</div>
+        <div class="about-text reveal">
+ <h2>Welcome to my space.</h2>
             <p>
-                Sandeep Seelam is a personal digital space designed
-                to explore ideas, technology, creativity and
-                everything interesting in between.
+                sanDEEP talks is a personal space built around one idea —
+                slowing down long enough to actually think. About your
+                habits, your work, your mind, and the direction your
+                life is moving in.
             </p>
-
             <p>
-                This website will continue to evolve as new
-                projects, experiences and ideas come to life.
-            </p>
-
+                Every piece is written to make you pause and reflect.
+                Not quick tips. Not noise. Just honest, deep conversations
+                about living with intention.
+           </p>
         </div>
-
     </div>
-
 </section>
 
-
-
 <!-- =========================
-     SERVICES
+     TOPICS
 ========================= -->
 
-<section id="services">
-
-    <div class="section-title">
-
+<section id="topics">
+    <div class="section-title reveal">
         <span>WHAT'S HERE</span>
-
-        <h2>
-            Explore the experience.
-        </h2>
-
+        <h2>Explore the conversations.</h2>
     </div>
-
 
     <div class="cards">
 
-
-        <div class="card">
-
-            <div class="card-icon">
-                ✦
-            </div>
-
-            <h3>
-                Creative Ideas
-            </h3>
-
+        <div class="card reveal">
+            <div class="card-icon">✦</div>
+            <h3>Deep Thinking</h3>
             <p>
-                A place for concepts, experiments and
-                creative projects.
+                Ideas that challenge how you see your work,
+                your habits, and your choices.
             </p>
-
         </div>
 
-
-        <div class="card">
-
-            <div class="card-icon">
-                ◈
-            </div>
-
-            <h3>
-                Technology
-            </h3>
-
+        <div class="card reveal">
+            <div class="card-icon">◈</div>
+            <h3>Self & Well-being</h3>
             <p>
-                Exploring modern technology, digital tools
-                and interesting ideas.
+                Reflections on mental clarity, peace,
+                and building a life you don't need to escape from.
             </p>
-
         </div>
 
-
-        <div class="card">
-
-            <div class="card-icon">
-                ◎
-            </div>
-
-            <h3>
-                Future Projects
-            </h3>
-
+        <div class="card reveal">
+            <div class="card-icon">◎</div>
+            <h3>Growth & Intention</h3>
             <p>
-                New projects and experiences will be added
-                here as they develop.
+                On doing things deliberately — living and working
+                on purpose, not on autopilot.
             </p>
-
         </div>
-
 
     </div>
-
 </section>
-
-
 
 <!-- =========================
      CONTACT
 ========================= -->
 
 <section id="contact">
-
-    <div class="contact-box">
-
-        <h2>
-            Let's connect.
-        </h2>
-
+    <div class="contact-box reveal">
+        <h2>Let's connect.</h2>
         <p>
-            Have an idea, project or simply want to say hello?
+            Have a thought, a question, or something that made you think?
+            I'd love to hear it.
         </p>
-
-        <a
-            href="mailto:hello@Sandeep Seelam.github.io"
-            class="btn primary"
-        >
+        <a href="mailto:yourmail@example.com" class="btn primary">
             Contact me
         </a>
-
     </div>
-
 </section>
-
-
 
 <!-- =========================
      FOOTER
 ========================= -->
 
 <footer>
-
-    © 2026 Sandeep Seelam · Built with curiosity.
-
+    © 2026 <span>sanDEEP talks</span> · Built for deep thinkers.
 </footer>
 
+<script>
+
+/* Intro sequence: show ~2.3s, then fade out */
+window.addEventListener('load', function () {
+    setTimeout(function ()        document.getElementById('intro').classList.add('hidden');
+    }, 2300);
+});
+
+/* Scroll reveal */
+const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(function (el) {
+    observer.observe(el);
+});
+
+</script>
 
 </body>
 </html>
