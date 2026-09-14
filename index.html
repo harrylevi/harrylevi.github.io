@@ -888,6 +888,61 @@ input {
     }
 }
 
+
+/* STEP 1 — Compact mobile Reading Room */
+@media (max-width: 640px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .blog-card {
+    min-height: 0;
+    padding: 22px 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .blog-card:first-child {
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+
+  .blog-card h3 {
+    font-size: 1.28rem;
+    line-height: 1.18;
+    margin: 8px 0;
+  }
+
+  .blog-card .excerpt {
+    font-size: .88rem;
+    line-height: 1.55;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .blog-card-footer {
+    margin-top: 14px;
+  }
+
+  .blog-number,
+  .blog-topic,
+  .blog-author,
+  .read-button {
+    font-size: .7rem;
+  }
+
+  .read-button {
+    padding: 7px 11px;
+  }
+}
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
