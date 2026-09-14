@@ -1182,6 +1182,44 @@ input {
 @media(prefers-reduced-motion:reduce){.ambient-leaf,.ambient-cloud,.ambient-bird{animation:none}}
 </style>
 
+
+<style id="san-deep-final-polish">
+/* FINAL PAGE POLISH — San Deep Talks */
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+section{position:relative}
+#ambient-world{z-index:2}
+#ambient-world~*{position:relative;z-index:3}
+
+/* Let the living atmosphere remain visible without overpowering content. */
+.hero,.intro,.reading-room,.article-reader,.article-panel{isolation:isolate}
+.blog-card,.topic-filter,.article-panel,.hero-content{backdrop-filter:blur(2px)}
+
+/* Smooth reveal for content sections already present in the page. */
+.blog-card{transition:transform .45s ease,opacity .45s ease,border-color .45s ease}
+.blog-card:hover{transform:translateY(-4px)}
+
+/* Keep the Reading Room editorial and breathable. */
+@media(max-width:640px){
+  .blog-card{transform:none!important}
+  .blog-card:hover{transform:none!important}
+  .blog-card{min-height:0!important}
+  .blog-card h3{letter-spacing:-.02em}
+  .blog-card .excerpt{max-width:38rem}
+}
+
+/* Touch devices should never get accidental hover states. */
+@media(hover:none){
+  .blog-card:hover{transform:none}
+}
+
+/* Respect accessibility. */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .blog-card{transition:none}
+}
+</style>
+
 </head>
 
 
