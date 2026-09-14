@@ -1,3 +1,5 @@
+<!-- SAN DEEP TALKS — FINAL PRODUCTION BUILD -->
+<!-- San Deep Talks — Step 13: Deeper Interactions -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1097,7 +1099,6 @@ input {
 
 /* STEP 4 — BREEZE ENGINE: the world keeps moving, gently responds to you */
 .living-leaves-layer,
-.touch-petals-layer{
   position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9990;
 }
 .living-leaves-layer{isolation:isolate;}
@@ -1139,27 +1140,48 @@ input {
 .living-leaves-layer.gust .living-leaf{
   animation-duration:calc(var(--leaf-duration) * .62);
 }
-.touch-petal{
   position:absolute; width:11px; height:7px;
   border-radius:100% 0 100% 0;
   background:currentColor;
   opacity:.78;
   will-change:transform,opacity;
-  animation:petalFall var(--petal-duration,3.1s) cubic-bezier(.2,.65,.25,1) forwards;
   transform-origin:center;
   filter:drop-shadow(0 1px 4px rgba(0,0,0,.08));
 }
-@keyframes petalFall{
   0%{transform:translate3d(0,0,0) rotate(0deg) scale(.45);opacity:0}
   12%{opacity:.82}
-  42%{transform:translate3d(calc(var(--petal-x) * .42),38vh,0) rotate(145deg) scale(1)}
-  72%{transform:translate3d(calc(var(--petal-x) * .82),69vh,0) rotate(275deg) scale(.9)}
-  100%{transform:translate3d(var(--petal-x),108vh,0) rotate(460deg) scale(.68);opacity:0}
 }
 @media (prefers-reduced-motion:reduce){
   .living-leaf{animation:none;opacity:0}
-  .touch-petal{animation:none;display:none}
 }
+
+/* STEP 11 — Reading Room discovery layer */
+.reading-room-intro{position:relative;z-index:2}
+.reading-room-intro::after{content:"15 thoughts · read what finds you";display:block;margin-top:10px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+.blog-grid{counter-reset:thought}
+.blog-card{counter-increment:thought;position:relative;overflow:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease,border-color .45s ease}
+.blog-card::before{content:counter(thought,decimal-leading-zero);position:absolute;top:18px;right:20px;font-size:.68rem;letter-spacing:.12em;opacity:.38}
+.blog-card::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;transform:scaleX(0);transform-origin:left;transition:transform .5s ease;opacity:.65}
+.blog-card:hover{transform:translateY(-6px)}
+.blog-card:hover::after{transform:scaleX(1)}
+.blog-card .blog-title{padding-right:42px}
+.blog-card .read-btn{transition:transform .35s ease,letter-spacing .35s ease}
+.blog-card:hover .read-btn{transform:translateX(4px);letter-spacing:.04em}
+@media (max-width:700px){.reading-room-intro::after{font-size:.62rem}.blog-card::before{top:14px;right:8px}.blog-card:hover{transform:none}.blog-card:hover .read-btn{transform:none}}
+@media (prefers-reduced-motion:reduce){.blog-card,.blog-card::after,.blog-card .read-btn{transition:none}.blog-card:hover{transform:none}.blog-card:hover::after{transform:none}}
+
+/* STEP 12 — Seamless world navigation */
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+nav{transition:background .45s ease,box-shadow .45s ease,transform .45s ease}
+nav.scrolled{background:rgba(255,255,255,.86);box-shadow:0 12px 35px rgba(34,65,43,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nav-links a{position:relative;transition:opacity .25s ease,color .25s ease}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:-9px;width:0;height:2px;border-radius:2px;background:currentColor;transform:translateX(-50%);transition:width .3s ease}
+.nav-links a.active{opacity:1}
+.nav-links a.active::after{width:22px}
+.world-transition{position:fixed;inset:0;z-index:9998;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(244,248,244,.0),rgba(31,52,36,.16));opacity:0;transition:opacity .45s ease}
+.world-transition.on{opacity:1}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.nav-links a::after{transition:none}.world-transition{transition:none}}
+
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1220,6 +1242,323 @@ section{position:relative}
 }
 </style>
 
+
+<style id="san-deep-home-world-v2">
+/* HOME WORLD — a quiet horizon behind the existing hero */
+.hero::before{
+  content:"";
+  position:absolute;
+  left:-10%;
+  right:-10%;
+  bottom:-5%;
+  height:38%;
+  pointer-events:none;
+  opacity:.55;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(120,150,115,.13) 0%, rgba(120,150,115,0) 66%);
+  transform:translateY(calc(var(--sd-scroll, 0) * .06px));
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:1px;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+  opacity:.55;
+}
+.hero > *{position:relative;z-index:2}
+
+/* Make the first content section feel like an arrival, not a hard cut. */
+.reading-room{
+  position:relative;
+  overflow:hidden;
+}
+.reading-room::before{
+  content:"";
+  position:absolute;
+  top:0;left:8%;right:8%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+}
+
+/* A small, quiet scroll invitation if the page has a hero. */
+.sd-scroll-note{
+  position:absolute;
+  left:50%;
+  bottom:26px;
+  transform:translateX(-50%);
+  z-index:4;
+  font-size:.62rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  opacity:.52;
+  white-space:nowrap;
+  animation:sdNote 3.8s ease-in-out infinite;
+}
+.sd-scroll-note::after{
+  content:"";
+  display:block;
+  width:1px;height:22px;
+  margin:8px auto 0;
+  background:currentColor;
+  opacity:.5;
+}
+@keyframes sdNote{
+  0%,100%{opacity:.35;transform:translateX(-50%) translateY(0)}
+  50%{opacity:.65;transform:translateX(-50%) translateY(4px)}
+}
+@media(max-width:640px){
+  .sd-scroll-note{bottom:18px;font-size:.55rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .sd-scroll-note{animation:none}
+}
+</style>
+
+
+<style id="san-deep-reading-room-v2">
+/* READING ROOM — a quieter world inside the same living site */
+.reading-room{
+  position:relative;
+  isolation:isolate;
+}
+.reading-room::after{
+  content:"";
+  position:absolute;
+  inset:8% -20% 0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 20% 30%,rgba(145,165,120,.07),transparent 42%),
+    radial-gradient(ellipse at 82% 72%,rgba(190,175,135,.055),transparent 38%);
+  animation:readingBreathe 14s ease-in-out infinite alternate;
+}
+@keyframes readingBreathe{
+  from{transform:scale(1) translate3d(-1%,0,0);opacity:.65}
+  to{transform:scale(1.06) translate3d(1%,1%,0);opacity:1}
+}
+
+/* Editorial index: numbers and topics become navigation anchors. */
+.blog-card{
+  position:relative;
+  overflow:hidden;
+}
+.blog-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:2px;
+  transform:scaleY(0);
+  transform-origin:center;
+  transition:transform .45s ease;
+  background:currentColor;
+  opacity:.35;
+}
+.blog-card:hover::before{transform:scaleY(1)}
+.blog-number{font-variant-numeric:tabular-nums;letter-spacing:.12em}
+
+/* Topic filter becomes a calm horizontal index rather than a chunky control bar. */
+.topic-filter{
+  position:relative;
+  scrollbar-width:none;
+}
+.topic-filter::-webkit-scrollbar{display:none}
+.topic-filter button{
+  transition:opacity .3s ease,transform .3s ease;
+}
+.topic-filter button:hover{transform:translateY(-1px)}
+
+/* Article opening feels like turning a page. */
+.article-reader{
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.article-reader.active{opacity:1}
+.article-panel{
+  transform:translateY(22px);
+  transition:transform .55s cubic-bezier(.2,.75,.25,1);
+}
+.article-reader.active .article-panel{transform:translateY(0)}
+
+@media(max-width:640px){
+  .reading-room::after{inset:0 -45% 0}
+  .blog-card::before{display:none}
+  .topic-filter{
+    margin-left:-2px;
+    margin-right:-2px;
+    padding-left:2px;
+    padding-right:2px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reading-room::after{animation:none}
+  .blog-card::before,.topic-filter button,.article-reader,.article-panel{transition:none}
+}
+</style>
+
+
+<style id="sd-reading-kicker-style">
+.sd-reading-kicker{margin-bottom:12px;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;opacity:.45}
+@media(max-width:640px){.sd-reading-kicker{font-size:.55rem;letter-spacing:.18em}}
+</style>
+
+
+<style id="sd-article-experience-style">
+/* Article experience: the reader feels like a quiet room inside the larger world. */
+.article-reader{
+  padding:0;
+  background:rgba(3,8,5,.78);
+  backdrop-filter:blur(22px) saturate(.82);
+  -webkit-backdrop-filter:blur(22px) saturate(.82);
+  overscroll-behavior:contain;
+}
+.article-reader::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 12%,rgba(213,228,207,.09),transparent 42%),
+             linear-gradient(180deg,rgba(3,8,5,.12),rgba(3,8,5,.34));
+}
+.article-reader.open{opacity:1;visibility:visible;}
+.article-panel{
+  min-height:calc(100vh - 80px);
+  margin:40px auto;
+  border-radius:28px;
+  box-sizing:border-box;
+  transform:translateY(34px) scale(.985);
+  opacity:0;
+  transition:transform .65s cubic-bezier(.2,.78,.2,1),opacity .45s ease;
+}
+.article-reader.open .article-panel{transform:translateY(0) scale(1);opacity:1;}
+.article-reader.leaving .article-panel{transform:translateY(18px) scale(.99);opacity:0;}
+.reader-progress{
+  position:fixed;left:0;top:0;width:100%;height:3px;z-index:3;
+  background:rgba(255,255,255,.10);
+}
+.reader-progress span{display:block;height:100%;width:0;background:rgba(255,255,255,.72);transform-origin:left center;transition:width .08s linear;}
+.reader-meta-line{display:flex;align-items:center;gap:10px;margin:0 0 30px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.45;}
+.reader-meta-dot{width:4px;height:4px;border-radius:50%;background:currentColor;display:inline-block;}
+.reader-close{z-index:2;transition:transform .3s ease,background .3s ease,opacity .3s ease;}
+.reader-close:hover{transform:rotate(90deg);}
+.article-content h2{max-width:720px;text-wrap:balance;}
+.article-body p,.article-body .pullquote{max-width:700px;}
+.article-body p{font-size:1.08rem;line-height:1.9;}
+.article-body .pullquote{margin-left:auto;margin-right:auto;}
+@media(max-width:640px){
+  .article-panel{min-height:100vh;margin:0;border-radius:0;padding:68px 24px 50px;}
+  .reader-close{top:16px;right:16px;}
+  .reader-meta-line{margin-bottom:22px;}
+  .article-body p{font-size:1rem;line-height:1.82;}
+}
+@media(prefers-reduced-motion:reduce){
+  .article-panel,.reader-close,.reader-progress span{transition:none;}
+}
+</style>
+
+
+<style id="sdt-step10">
+/* Step 10 — article atmosphere: each thought gets its own quiet emotional temperature. */
+.article-reader{--reader-accent:#348652;--reader-glow:rgba(52,134,82,.10);}
+.article-reader::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 18%,var(--reader-glow),transparent 48%);opacity:.9;transition:background .8s ease,opacity .5s ease;}
+.article-reader[data-topic="LIFE"]{--reader-accent:#6b8f71;--reader-glow:rgba(107,143,113,.14)}
+.article-reader[data-topic="WORK"]{--reader-accent:#64748b;--reader-glow:rgba(100,116,139,.12)}
+.article-reader[data-topic="COMPARISON"]{--reader-accent:#8b7aa8;--reader-glow:rgba(139,122,168,.12)}
+.article-reader[data-topic="COURAGE"]{--reader-accent:#9b6b45;--reader-glow:rgba(155,107,69,.12)}
+.article-reader[data-topic="SOCIAL LIFE"]{--reader-accent:#668b8a;--reader-glow:rgba(102,139,138,.12)}
+.article-reader[data-topic="STOICISM"]{--reader-accent:#68756b;--reader-glow:rgba(104,117,107,.13)}
+.article-reader[data-topic="AWARENESS"]{--reader-accent:#7587a3;--reader-glow:rgba(117,135,163,.12)}
+.article-reader[data-topic="ONE LIFE"]{--reader-accent:#9a7656;--reader-glow:rgba(154,118,86,.12)}
+.article-reader[data-topic="CAREER"]{--reader-accent:#587b91;--reader-glow:rgba(88,123,145,.12)}
+.article-reader[data-topic="RELATIONSHIPS"]{--reader-accent:#9a6873;--reader-glow:rgba(154,104,115,.12)}
+.article-reader[data-topic="MONEY"]{--reader-accent:#77834e;--reader-glow:rgba(119,131,78,.12)}
+.article-reader[data-topic="FAILURE"]{--reader-accent:#8a6859;--reader-glow:rgba(138,104,89,.12)}
+.article-reader[data-topic="BELIEF"]{--reader-accent:#756b91;--reader-glow:rgba(117,107,145,.12)}
+.article-reader[data-topic="DIGITAL LIFE"]{--reader-accent:#557f8a;--reader-glow:rgba(85,127,138,.12)}
+.article-reader[data-topic="THE BIG QUESTION"]{--reader-accent:#806b55;--reader-glow:rgba(128,107,85,.13)}
+.article-reader .reader-topic{color:var(--reader-accent);}
+.article-reader .reader-progress span{background:var(--reader-accent);}
+.article-reader .pullquote{border-left-color:var(--reader-accent);}
+.article-reader .article-note{border-color:color-mix(in srgb,var(--reader-accent) 25%,transparent);}
+.article-reader .article-panel{animation:sdtPanelIn .65s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes sdtPanelIn{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.article-reader .article-panel{animation:none}.article-reader::before{transition:none}}
+</style>
+
+<style id="sd-deeper-interactions-style">
+  /* Step 13: quiet visitor-responsive interactions */
+  .sd-magnetic { transition: transform .22s ease, box-shadow .22s ease; will-change: transform; }
+  .sd-focus-ring { position: fixed; width: 180px; height: 180px; border-radius: 50%;
+    pointer-events:none; z-index: 2; opacity:0; transform:translate(-50%,-50%) scale(.7);
+    background: radial-gradient(circle, rgba(255,255,255,.10), rgba(255,255,255,0) 68%);
+    mix-blend-mode: screen; transition: opacity .35s ease, transform .45s ease; }
+  .sd-focus-ring.active { opacity:.55; transform:translate(-50%,-50%) scale(1); }
+  .sd-reading-cue { opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .sd-reading-cue.visible { opacity:.72; transform:translateY(0); }
+  @media (max-width:700px) {
+    .sd-focus-ring { display:none; }
+    .sd-magnetic { transform:none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sd-magnetic, .sd-focus-ring, .sd-reading-cue { transition:none !important; }
+  }
+</style>
+
+
+<style id="sd-responsive-final">
+/* Step 14 — responsive/mobile final pass */
+@media (max-width: 900px) {
+  .container { width: min(92%, 760px); }
+  section { padding-top: 76px; padding-bottom: 76px; }
+  .hero { min-height: 82svh; }
+  .blog-grid { gap: 0; }
+}
+@media (max-width: 640px) {
+  html { scroll-padding-top: 12px; }
+  body { overflow-x: hidden; }
+  .container { width: min(92%, 520px); }
+  section { padding: 58px 0; }
+  .hero { min-height: 78svh; padding: 82px 0 54px; }
+  .hero h1 { font-size: clamp(2.35rem, 12vw, 4rem); line-height: .98; }
+  .hero p { font-size: .98rem; line-height: 1.65; max-width: 34rem; }
+  .btn, button { min-height: 44px; }
+  nav a { padding: 10px 7px; }
+  .blog-card { padding: 19px 0 !important; }
+  .blog-card h3 { font-size: 1.05rem; line-height: 1.25; }
+  .blog-card p { font-size: .88rem; line-height: 1.55; }
+  .blog-card .read-btn, .blog-card a { min-height: 40px; }
+  .article-reader, .reader, .modal { padding: 16px !important; }
+  .article-reader .article-content, .reader .article-content, .modal .article-content {
+    width: min(100%, 680px);
+    padding: 22px 4px 48px;
+  }
+  .article-reader h1, .reader h1, .modal h1 {
+    font-size: clamp(1.8rem, 8vw, 2.7rem);
+    line-height: 1.08;
+  }
+  .article-reader p, .reader p, .modal p {
+    font-size: 1rem;
+    line-height: 1.78;
+  }
+}
+@media (max-width: 390px) {
+  .container { width: 91%; }
+  section { padding: 50px 0; }
+  .hero { padding-top: 72px; }
+  nav a { font-size: .78rem; padding-inline: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
+</style>
+
+<style id="sd-performance-cleanup">
+/* Step 15 — performance safeguards */
+.ambient, .leaves, .clouds, .birds, .wind, [class*="ambient"], [class*="leaf"], [class*="cloud"], [class*="bird"] { contain: layout style paint; }
+@media (prefers-reduced-motion: reduce) { [class*="ambient"], [class*="leaf"], [class*="cloud"], [class*="bird"], [class*="wind"] { animation: none !important; } }
+</style>
 </head>
 
 
@@ -1272,12 +1611,12 @@ section{position:relative}
     <div class="logo">San Deep<span> Talks</span></div>
 
     <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#thoughts">Thoughts</a>
-        <a href="#about">About</a>
-        <a href="#services">Explore</a>
-        <a href="#reading-room">Read</a>
-        <a href="#contact">Contact</a>
+        <a href="#home" data-section="home">Home</a>
+        <a href="#thoughts" data-section="thoughts">Thoughts</a>
+        <a href="#about" data-section="about">About</a>
+        <a href="#services" data-section="services">Explore</a>
+        <a href="#reading-room" data-section="reading-room">Read</a>
+        <a href="#contact" data-section="contact">Contact</a>
     </div>
 </nav>
 
@@ -1413,7 +1752,8 @@ section{position:relative}
                 Practical ideas for becoming more aware, intentional,
                 balanced and capable of handling life's complexity.
             </p>
-        </div>
+        </di
+<div class="sd-reading-kicker" aria-hidden="true">A quiet place for difficult questions</div>v>
 
     </div>
 </section>
@@ -1612,14 +1952,16 @@ section{position:relative}
     </div>
 </section>
 
-<div class="article-reader" id="articleReader" aria-hidden="true">
+<div class="article-reader" id="articleReader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" aria-hidden="true">
     <div class="article-panel">
+        <div class="reader-progress" aria-hidden="true"><span id="readerProgressBar"></span></div>
         <button class="reader-close" id="readerClose" aria-label="Close article">×</button>
         
 <article class="article-content" data-article-content="01" hidden>
     <div class="reader-topic">LIFE</div>
-    <h2>You Do Not Need a Perfect Life to Enjoy Your Life</h2>
+    <h2 id="readerTitle">You Do Not Need a Perfect Life to Enjoy Your Life</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Maybe you have a small salary. Maybe you are still renting a room. Maybe your friends seem far ahead. Maybe you are watching people online who travel more, earn more, and look happier than you.</p><div class="pullquote">It is easy to think, “I will enjoy life when I become successful.”</div><p>But what if that day keeps moving?</p><p>There will always be a new target. More money. A better phone. A bigger house. A better title. A new problem after the old problem is solved.</p><p>This does not mean we should stop dreaming. Dream big. Work hard. Build the life you want. But do not make today pay the price for tomorrow.</p><p>Have tea with a friend. Walk without checking your phone. Laugh loudly. Call someone you love. Learn something because it interests you, not because it will look good on your resume.</p><p>A good life is not only the final result. It is also the ordinary Tuesday.</p><p>The Stoics reminded people to focus on what is in their hands: their choices, actions, and response. That idea still works today. You may not control the market, your salary, another person&#39;s opinion, or the algorithm on your phone. But you can choose what you do with this day.</p><p>You only get this day once.</p><p>So build your future. But do not forget to live while building it.</p>
     </div>
@@ -1630,6 +1972,7 @@ section{position:relative}
     <div class="reader-topic">WORK</div>
     <h2>Your Salary Is a Number. It Is Not Your Worth</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>We have quietly turned salary into a score.</p><div class="pullquote">Someone earns more, and we think they are winning. Someone earns less, and we think they are behind.</div><p>But a payslip cannot measure courage. It cannot measure kindness. It cannot measure how many times someone started again after failing.</p><p>Money matters. We should not pretend it does not. Bills are real. Family responsibilities are real. Wanting a better income is not greed. It can be a very honest need.</p><p>The danger begins when income becomes identity.</p><p>If you earn less today, you are not less of a person. You are simply at a different point in your story.</p><p>Use your salary as information, not as a verdict.</p><p>Ask: What skills can I build? What can I learn this year? What kind of work gives me more value in the market? Who can I learn from?</p><p>The goal is not to hate money. The goal is to stop worshipping it.</p><p>Build wealth if you can. Ask for better pay. Change jobs when you need to. Learn skills that increase your choices.</p><p>But when you look in the mirror at night, remember this:</p><p>Your bank balance is part of your life. It is not the whole of your life.</p>
     </div>
@@ -1640,6 +1983,7 @@ section{position:relative}
     <div class="reader-topic">COMPARISON</div>
     <h2>The Internet Is Showing You Someone Else&#39;s Highlight Reel</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Someone is in Dubai. Someone bought a car. Someone got promoted at 24. Someone is building a company from a beach. Someone is always in love. Someone has perfect skin, perfect friends, perfect confidence.</p><div class="pullquote">Then you look at your own room.</div><p>And suddenly your life feels ordinary.</p><p>But the internet is not a window into another person&#39;s entire life. It is a stage.</p><p>You see selected moments. You do not see the debt, fear, loneliness, arguments, failed plans, or quiet mornings when that person also wonders what they are doing.</p><p>This does not mean every influencer is fake. It means every human life is bigger than what a camera can show.</p><p>Krishnamurti often pushed people to observe without immediately judging. That is useful here.</p><p>When jealousy appears, do not attack yourself for feeling it. Watch it.</p><p>“What exactly am I jealous of?”</p><p>Maybe it is not the person&#39;s car. Maybe it is freedom.</p><p>Maybe it is not their travel. Maybe it is the feeling that their life has direction.</p><p>That is useful information.</p><p>Turn comparison into a question.</p><p>What is this feeling trying to tell me about what I want?</p><p>Then put the phone down and take one real step toward it.</p>
     </div>
@@ -1650,6 +1994,7 @@ section{position:relative}
     <div class="reader-topic">COURAGE</div>
     <h2>Everything Around You Was Once Someone&#39;s Impossible Idea</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>We often say, “That is impossible.”</p><div class="pullquote">Sometimes it is true. Some things have limits.</div><p>But many things that look impossible are simply things we have not learned how to do yet.</p><p>A person once looked at the sky and dreamed of flying. A person imagined sending a message across the world in seconds. A person imagined a machine that could hold millions of books.</p><p>Now these things are normal.</p><p>This should make you humble, not arrogant.</p><p>You do not need to believe you can do literally anything. You need to stop deciding that you cannot do something before you have seriously tried.</p><p>Maybe you want to change careers at 30. Maybe you want to write a book. Maybe you want to start a business with very little money. Maybe you want to become confident after years of hiding.</p><p>Start small.</p><p>The first version will probably be bad. That is okay.</p><p>A dream becomes less frightening when you turn it into a schedule.</p><p>One hour of learning. One application. One conversation. One page. One experiment.</p><p>Osho&#39;s work often returned to awareness, experimentation, and living rather than simply collecting beliefs. That spirit is useful for modern life too.</p><p>Do not worship the dream.</p><p>Work on it.</p><p>And let reality teach you what is possible.</p>
     </div>
@@ -1660,6 +2005,7 @@ section{position:relative}
     <div class="reader-topic">SOCIAL LIFE</div>
     <h2>You Are Not Bad at People. You May Just Be Out of Practice</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>You want to talk to people.</p><div class="pullquote">Then you think too much.</div><p>“What should I say?”</p><p>“What if they think I am boring?”</p><p>“What if the conversation becomes awkward?”</p><p>So you stay quiet.</p><p>Then you feel lonely.</p><p>Then you become even more nervous the next time.</p><p>This is a loop.</p><p>The answer is not to become the most interesting person in the room. It is to become interested in the person in front of you.</p><p>Ask simple questions.</p><p>“How was your day?”</p><p>“What are you working on?”</p><p>“What do you enjoy doing?”</p><p>Then actually listen.</p><p>You do not need a perfect story every time. You do not need clever jokes. You do not need to impress everyone.</p><p>A good conversation is often just two people being comfortable enough to be human.</p><p>Start with small risks.</p><p>Say hello to the colleague you normally ignore. Ask someone a question. Join the group for ten minutes instead of staying home.</p><p>Awkward moments are not proof that you failed.</p><p>They are practice.</p><p>The more you practice being present with people, the less your mind needs to rehearse every sentence.</p><p>You are not trying to perform.</p><p>You are trying to connect.</p>
     </div>
@@ -1670,6 +2016,7 @@ section{position:relative}
     <div class="reader-topic">STOICISM</div>
     <h2>You Cannot Control the World. You Can Still Build Your Life</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>You cannot control whether your manager likes you.</p><div class="pullquote">You cannot control whether a company hires you.</div><p>You cannot control traffic.</p><p>You cannot control what someone says about you.</p><p>You cannot control the past.</p><p>But you can control your preparation. Your effort. Your honesty. Your next action.</p><p>This is close to the heart of the Stoic idea called the dichotomy of control. Epictetus taught that some things are up to us and some are not. Stoicism was not simply about reading wise sentences. It was meant to be practiced in daily life. </p><p>Think about a job interview.</p><p>If you spend the whole day thinking, “I must get this job,” your mind is trapped in an outcome you cannot fully control.</p><p>Try another approach.</p><p>“I will prepare well. I will speak honestly. I will learn from the result.”</p><p>That is a much stronger position.</p><p>This does not mean becoming cold or passive.</p><p>It means putting your energy where it can actually do work.</p><p>Control your effort.</p><p>Control your habits.</p><p>Control your words.</p><p>Control how quickly you give up.</p><p>Let the rest be the rest.</p><p>That small change can make modern life feel less like a fight against the entire universe.</p>
     </div>
@@ -1680,6 +2027,7 @@ section{position:relative}
     <div class="reader-topic">AWARENESS</div>
     <h2>You Do Not Have to Believe Every Thought You Have</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Your mind says, “Nobody likes me.”</p><div class="pullquote">Is that a fact?</div><p>Your mind says, “I am already too late.”</p><p>Is that a fact?</p><p>Your mind says, “Everyone else is doing better.”</p><p>Is that a fact?</p><p>A thought can feel true and still be incomplete.</p><p>We often live as if every sentence in our head is an instruction.</p><p>But the mind produces thoughts all day. Some are useful. Some are old fears. Some are habits. Some are guesses.</p><p>Try something simple.</p><p>Instead of saying, “I am a failure,” say, “I am having the thought that I am a failure.”</p><p>That tiny change creates space.</p><p>You are observing the thought instead of becoming the thought.</p><p>Krishnamurti&#39;s approach placed strong emphasis on observing thought and seeing clearly without immediately forcing experience into a conclusion. The useful lesson for everyday life is not to collect another belief, but to look carefully at what is happening inside you.</p><p>You may discover that many of your strongest fears are predictions.</p><p>And predictions can be tested.</p><p>If you feel unworthy, do one useful thing.</p><p>If you feel stuck, take one small action.</p><p>If you feel afraid, do not demand that fear disappear before you move.</p><p>Awareness does not mean having no thoughts.</p><p>It means learning to see them.</p>
     </div>
@@ -1690,6 +2038,7 @@ section{position:relative}
     <div class="reader-topic">ONE LIFE</div>
     <h2>Stop Saving Your Life for Later</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>After I get the promotion.</p><div class="pullquote">After I make more money.</div><p>After I lose weight.</p><p>After I move to a better house.</p><p>After I become confident.</p><p>After things settle down.</p><p>Then I will enjoy life.</p><p>The problem is that life does not promise a calm period.</p><p>There will always be something.</p><p>A family responsibility. A new bill. A difficult month. Another goal.</p><p>So create small moments of living inside the middle of the struggle.</p><p>Go somewhere new, even if it is nearby.</p><p>Eat slowly.</p><p>Listen to music without working at the same time.</p><p>Watch the sunset.</p><p>Call an old friend.</p><p>Take a day trip when you can afford it.</p><p>Celebrate small wins.</p><p>This is not an argument against ambition. In fact, I think ambition becomes healthier when you stop using it as an excuse to hate the present.</p><p>You have one life that you can actually experience.</p><p>Not the life you will have after you become successful.</p><p>This one.</p><p>So build. Earn. Learn. Save.</p><p>And live.</p>
     </div>
@@ -1700,6 +2049,7 @@ section{position:relative}
     <div class="reader-topic">CAREER</div>
     <h2>You Are Allowed to Change Your Mind About Your Career</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>At 20, you may choose a career because your family suggested it.</p><div class="pullquote">At 25, you may discover you hate it.</div><p>At 28, you may find something you love.</p><p>At 35, you may change again.</p><p>That is not automatically failure.</p><p>People speak about careers as if a human being should choose one road and stay on it forever. But humans change because experience changes them.</p><p>You learn what you like.</p><p>You learn what you cannot tolerate.</p><p>You discover new skills.</p><p>The world changes too.</p><p>A job title that did not exist ten years ago may become normal. A skill that once seemed unusual may become valuable.</p><p>So if you are unhappy, do not immediately quit everything.</p><p>First, investigate.</p><p>What exactly is wrong?</p><p>The work? The manager? The industry? The salary? The hours? The lack of growth?</p><p>Then build your next option before destroying your current one when possible.</p><p>Learn after work.</p><p>Talk to people in other roles.</p><p>Try a small project.</p><p>Update your resume honestly.</p><p>Move one step at a time.</p><p>Your career should support your life.</p><p>It should not become your entire identity.</p>
     </div>
@@ -1710,6 +2060,7 @@ section{position:relative}
     <div class="reader-topic">RELATIONSHIPS</div>
     <h2>Do Not Turn Love Into a Cage</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>We sometimes call control “care.”</p><div class="pullquote">We want to know where someone is.</div><p>Who they are talking to.</p><p>Why they laughed.</p><p>Why they did not reply.</p><p>Who they follow.</p><p>But love cannot grow well inside constant checking.</p><p>A relationship needs closeness, but it also needs space.</p><p>The person you love is still a separate person with a separate mind.</p><p>They will have friends.</p><p>They will meet people.</p><p>They will have moods you do not understand.</p><p>They may disagree with you.</p><p>None of that automatically means you are losing them.</p><p>The hard work is learning to separate a feeling from an action.</p><p>You can feel jealous without shouting.</p><p>You can feel afraid without demanding proof.</p><p>You can say, “I am feeling insecure today,” instead of turning insecurity into an accusation.</p><p>That is strength.</p><p>Love should make two people feel more alive, not less free.</p><p>If you want a strong relationship, work on trust, communication, and your own ability to stand on your feet.</p><p>Do not ask another person to carry your entire sense of safety.</p><p>Love them.</p><p>But do not disappear inside them.</p>
     </div>
@@ -1720,6 +2071,7 @@ section{position:relative}
     <div class="reader-topic">MONEY</div>
     <h2>You Do Not Need to Look Rich to Build Wealth</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>A new phone is visible.</p><div class="pullquote">A savings account is not.</div><p>A nice car is visible.</p><p>A debt-free life is not.</p><p>A luxury holiday is visible.</p><p>Six months of emergency savings is not.</p><p>This is why social media can make financial life confusing.</p><p>We see consumption and call it success.</p><p>But real financial freedom can be boring.</p><p>Spend less than you earn when you can.</p><p>Build an emergency fund.</p><p>Avoid debt you do not understand.</p><p>Learn how investments work before putting money into them.</p><p>Increase your income by increasing your useful skills.</p><p>And do not compare your financial chapter with somebody else&#39;s.</p><p>Maybe you are supporting your family. Maybe you started late. Maybe your first salary was small.</p><p>Start where you are.</p><p>Money is a tool.</p><p>Use it to buy freedom, safety, choices, time, and experiences that matter to you.</p><p>Do not use it only to convince strangers that you are successful.</p><p>A quiet bank account can be more powerful than a loud lifestyle.</p>
     </div>
@@ -1730,6 +2082,7 @@ section{position:relative}
     <div class="reader-topic">FAILURE</div>
     <h2>A Failed Attempt Is Not a Failed Life</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>You applied and got rejected.</p><div class="pullquote">You tried and failed.</div><p>You started something and stopped.</p><p>You trusted someone and got hurt.</p><p>You made a bad decision.</p><p>Your mind may quickly turn one event into a whole identity:</p><p>“I am a failure.”</p><p>That sentence is too big.</p><p>A better sentence is:</p><p>“That attempt failed.”</p><p>There is a huge difference.</p><p>The first sentence attacks the person.</p><p>The second gives the person information.</p><p>Ask what the failure can teach you.</p><p>Was the plan bad?</p><p>Was the timing wrong?</p><p>Did you lack a skill?</p><p>Did you avoid asking for help?</p><p>Did you simply meet a situation you could not control?</p><p>Failure becomes useful when you can study it without turning it into shame.</p><p>This is one reason philosophy can matter in ordinary life. It gives us ways to examine our reactions instead of being dragged around by them.</p><p>You do not need to love failure.</p><p>You only need to stop treating it as a final verdict.</p><p>Try again.</p><p>Change the method.</p><p>Ask for help.</p><p>Take a different road.</p><p>Your story is bigger than one bad chapter.</p>
     </div>
@@ -1740,6 +2093,7 @@ section{position:relative}
     <div class="reader-topic">BELIEF</div>
     <h2>Do Not Borrow Your Whole Life From Other People</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Someone tells you what a successful person looks like.</p><div class="pullquote">Someone tells you what a good relationship looks like.</div><p>Someone tells you what you should believe.</p><p>Someone tells you what job you should take.</p><p>After hearing these messages for years, it can become difficult to know which desires are actually yours.</p><p>Questioning does not mean disrespect.</p><p>It means becoming responsible for your own life.</p><p>Ask:</p><p>“Do I want this, or have I simply learned to want it?”</p><p>That question can be uncomfortable.</p><p>Maybe you discover that you do not want the lifestyle you were chasing.</p><p>Maybe you discover that you actually do.</p><p>Either way, you are clearer.</p><p>Krishnamurti&#39;s work strongly challenged the habit of simply accepting inherited authority and encouraged direct inquiry. Osho&#39;s work also repeatedly emphasized experimenting and experiencing rather than merely collecting borrowed beliefs. </p><p>The point is not to reject every tradition.</p><p>The point is to look.</p><p>A belief should be able to survive a sincere question.</p><p>And your life should be something you participate in consciously, not something you perform because everyone else is watching.</p>
     </div>
@@ -1750,6 +2104,7 @@ section{position:relative}
     <div class="reader-topic">DIGITAL LIFE</div>
     <h2>Your Attention Is Your Real Currency</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Think about your day.</p><div class="pullquote">You wake up and check your phone.</div><p>You work and check your phone.</p><p>You eat and check your phone.</p><p>You feel bored and check your phone.</p><p>You feel uncomfortable and check your phone.</p><p>Then the day ends.</p><p>The problem is not the phone itself.</p><p>The problem is when you stop choosing where your attention goes.</p><p>Attention is limited.</p><p>If you spend an hour comparing yourself to strangers, that hour cannot also be spent learning a skill.</p><p>If you spend your evening scrolling through arguments, that evening cannot also become rest.</p><p>Try creating small protected spaces.</p><p>Ten minutes without a screen after waking up.</p><p>One meal without a phone.</p><p>Thirty minutes for reading.</p><p>A walk without headphones once in a while.</p><p>One evening where you do not consume anything and simply think.</p><p>Silence can feel strange at first.</p><p>That does not mean it is empty.</p><p>It may simply mean your mind is used to noise.</p><p>You do not have to leave the internet.</p><p>You just need to remember that you are the user.</p><p>Not the product.</p><p>Not the audience.</p><p>The owner of your attention.</p>
     </div>
@@ -1760,6 +2115,7 @@ section{position:relative}
     <div class="reader-topic">THE BIG QUESTION</div>
     <h2>What If You Actually Took Your Own Life Seriously?</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
+    <div class="reader-meta-line"><span>Reflection</span><span class="reader-meta-dot"></span><span>Read at your pace</span></div>
     <div class="article-body">
         <p>Imagine you suddenly understood that your time was limited.</p><div class="pullquote">Would you spend the same hours worrying about what strangers think?</div><p>Would you keep delaying the conversation you need to have?</p><p>Would you keep saying you will start next month?</p><p>Would you spend every evening watching someone else live?</p><p>Maybe.</p><p>Humans are complicated.</p><p>But the question is still worth asking.</p><p>Take your life seriously.</p><p>Not by becoming serious all the time.</p><p>Take it seriously by living it deliberately.</p><p>If you want to learn, learn.</p><p>If you want to create, create.</p><p>If you need to apologize, apologize.</p><p>If you need to leave a harmful situation, plan your way out.</p><p>If you love someone, tell them.</p><p>If you have a dream, give it a real experiment.</p><p>And if you are tired, rest without calling yourself lazy.</p><p>You do not need to become extraordinary every morning.</p><p>You need to become a little more awake to your own life.</p><p>That is the spirit of San Deep Talks.</p><p>Not another person telling you how to live.</p><p>A place to ask better questions.</p><p>Because the quality of our questions can change the quality of our lives.</p><p>So here is mine for you:</p><p>What are you doing with the life you already have?</p><p>And what could you do with it if you stopped waiting for permission?</p>
     </div>
@@ -1821,21 +2177,46 @@ setTimeout(enterSite, 4200);
    ========================================================= */
 const reader = document.getElementById("articleReader");
 const closeReader = document.getElementById("readerClose");
+const readerProgressBar = document.getElementById("readerProgressBar");
+let readerCloseTimer;
+let readerReturnScroll = 0;
+
+function updateReaderProgress(){
+    if (!reader || reader.getAttribute("aria-hidden") === "true") return;
+    const max = reader.scrollHeight - reader.clientHeight;
+    const progress = max > 0 ? (reader.scrollTop / max) * 100 : 0;
+    if (readerProgressBar) readerProgressBar.style.width = `${progress}%`;
+}
 
 function openArticle(id) {
+    clearTimeout(readerCloseTimer);
+    readerReturnScroll = window.scrollY;
     document.querySelectorAll(".article-content").forEach(article => {
         article.hidden = article.dataset.articleContent !== id;
     });
+    const activeArticle = reader.querySelector(`.article-content[data-article-content="${id}"]`);
+    const topic = activeArticle?.querySelector(".reader-topic")?.textContent.trim().toUpperCase() || "LIFE";
+    reader.dataset.topic = topic;
+    reader.classList.remove("leaving");
     reader.classList.add("open");
     reader.setAttribute("aria-hidden", "false");
     document.body.classList.add("locked");
     reader.scrollTop = 0;
+    if (readerProgressBar) readerProgressBar.style.width = "0%";
+    requestAnimationFrame(() => updateReaderProgress());
+    closeReader.focus({preventScroll:true});
 }
 
 function closeArticle() {
+    if (!reader.classList.contains("open")) return;
+    reader.classList.add("leaving");
     reader.classList.remove("open");
     reader.setAttribute("aria-hidden", "true");
     document.body.classList.remove("locked");
+    readerCloseTimer = setTimeout(() => {
+        reader.classList.remove("leaving");
+        window.scrollTo({top: readerReturnScroll, behavior:"smooth"});
+    }, 420);
 }
 
 document.querySelectorAll(".read-button").forEach(button => {
@@ -1844,12 +2225,13 @@ document.querySelectorAll(".read-button").forEach(button => {
 
 closeReader.addEventListener("click", closeArticle);
 
+reader.addEventListener("scroll", updateReaderProgress, {passive:true});
 reader.addEventListener("click", event => {
     if (event.target === reader) closeArticle();
 });
 
 document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeArticle();
+    if (event.key === "Escape" && reader.classList.contains("open")) closeArticle();
 });
 
 const filterButtons = document.querySelectorAll("#topicFilter button");
@@ -1861,11 +2243,9 @@ filterButtons.forEach(button => {
         button.classList.add("active");
 
         const filter = button.dataset.filter;
-
         blogCards.forEach(card => {
-            const topic = card.dataset.topic;
-            const show = filter === "ALL" || topic === filter;
-            card.classList.toggle("hidden", !show);
+            const matches = filter === "all" || card.dataset.topic === filter;
+            card.classList.toggle("hidden", !matches);
         });
     });
 });
@@ -1884,6 +2264,181 @@ for(let i=0;i<leafCount;i++){const e=document.createElement('span');e.className=
 for(let i=0;i<cloudCount;i++){const e=document.createElement('span');e.className='ambient-cloud';e.style.setProperty('--top',rand(8,42)+'vh');e.style.setProperty('--width',rand(110,240)+'px');e.style.setProperty('--height',rand(28,58)+'px');e.style.setProperty('--duration',rand(75,125)+'s');e.style.setProperty('--delay',rand(-100,0)+'s');root.appendChild(e)}
 for(let i=0;i<birdCount;i++){const e=document.createElement('span');e.className='ambient-bird';e.style.setProperty('--top',rand(15,48)+'vh');e.style.setProperty('--duration',rand(32,52)+'s');e.style.setProperty('--delay',rand(-45,0)+'s');root.appendChild(e)}
 addEventListener('pointerdown',()=>root.animate([{transform:'translateX(0)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:700,easing:'ease-out'}),{passive:true});
+})();
+</script>
+
+
+<script id="san-deep-home-scroll">
+(()=>{let ticking=false;
+addEventListener('scroll',()=>{
+  if(ticking)return;
+  ticking=true;
+  requestAnimationFrame(()=>{
+    document.documentElement.style.setProperty('--sd-scroll', String(window.scrollY||0));
+    ticking=false;
+  });
+},{passive:true});
+})();
+</script>
+
+
+<style id="sdt-reading-v2">
+/* Step 9 — immersive reading polish */
+.article-reader { backdrop-filter: blur(10px); }
+.article-reader::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.45; background:radial-gradient(circle at 50% 18%, rgba(255,255,255,.06), transparent 42%); }
+.article-reader .article-content { position:relative; max-width:780px; }
+.article-reader .article-content p { line-height:1.9; margin:0 0 1.35em; }
+.article-reader .article-content h1 { letter-spacing:-.025em; line-height:1.08; }
+.article-reader .article-content h2 { margin-top:2.2em; }
+.article-reader .article-content blockquote { margin:2.2rem 0; padding:1.2rem 1.4rem; border-left:2px solid currentColor; font-size:1.08em; opacity:.9; }
+.sdt-read-meta { display:flex; align-items:center; gap:12px; margin:0 0 24px; font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; opacity:.62; }
+.sdt-read-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
+@media (max-width:700px){ .article-reader .article-content{padding-left:20px;padding-right:20px}.article-reader .article-content p{line-height:1.78}.sdt-read-meta{margin-bottom:18px} }
+@media (prefers-reduced-motion:reduce){ .article-reader::before{display:none} }
+</style>
+<script>
+(function(){
+  const reader=document.querySelector('.article-reader');
+  if(!reader) return;
+  const content=reader.querySelector('.article-content');
+  if(!content) return;
+  const h1=content.querySelector('h1');
+  if(h1 && !content.querySelector('.sdt-read-meta')){
+    const meta=document.createElement('div'); meta.className='sdt-read-meta';
+    meta.innerHTML='<span>San Deep Talks</span><span class="sdt-read-dot"></span><span>Take your time</span>';
+    h1.parentNode.insertBefore(meta,h1);
+  }
+})();
+</script>
+
+
+<script>
+/* STEP 11 — gentle discovery interactions */
+(() => {
+  const cards = document.querySelectorAll('.blog-card');
+  cards.forEach((card, i) => {
+    card.addEventListener('pointerenter', () => card.style.setProperty('--discover-delay', `${i * 12}ms`));
+  });
+})();
+</script>
+
+<script>
+/* STEP 12: make the whole site feel like one continuous place */
+(function(){
+  const nav=document.querySelector('nav');
+  const links=[...document.querySelectorAll('.nav-links a[data-section]')];
+  const sections=links.map(a=>document.getElementById(a.dataset.section)).filter(Boolean);
+  const veil=document.querySelector('.world-transition');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setActive(id){
+    links.forEach(a=>a.classList.toggle('active',a.dataset.section===id));
+  }
+  function updateNav(){
+    if(nav) nav.classList.toggle('scrolled',window.scrollY>35);
+    const marker=window.scrollY+window.innerHeight*.34;
+    let current=sections[0]?.id;
+    sections.forEach(sec=>{if(sec.offsetTop<=marker) current=sec.id;});
+    if(current) setActive(current);
+  }
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(!ticking){requestAnimationFrame(()=>{updateNav();ticking=false});ticking=true;}
+  },{passive:true});
+  updateNav();
+
+  links.forEach(link=>link.addEventListener('click',e=>{
+    const target=document.getElementById(link.dataset.section);
+    if(!target) return;
+    e.preventDefault();
+    setActive(link.dataset.section);
+    if(veil && !reduced){
+      veil.classList.add('on');
+      setTimeout(()=>veil.classList.remove('on'),260);
+    }
+    target.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});
+  }));
+
+  // Preserve the feeling of place when returning from an article.
+  window.addEventListener('hashchange',updateNav);
+})();
+</script>
+
+<script id="sd-deeper-interactions-script">
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Quiet cursor atmosphere on desktop — deliberately restrained.
+  if (!reduce && window.matchMedia('(pointer:fine)').matches) {
+    const ring = document.createElement('div');
+    ring.className = 'sd-focus-ring';
+    document.body.appendChild(ring);
+
+    let x = -100, y = -100, tx = -100, ty = -100;
+    window.addEventListener('pointermove', e => {
+      tx = e.clientX; ty = e.clientY;
+      ring.classList.add('active');
+    }, {passive:true});
+    window.addEventListener('pointerleave', () => ring.classList.remove('active'));
+
+    const tick = () => {
+      x += (tx-x)*.12; y += (ty-y)*.12;
+      ring.style.left = x+'px'; ring.style.top = y+'px';
+      requestAnimationFrame(tick);
+    };
+    tick();
+
+    document.querySelectorAll('.blog-card, .card, .btn, button, a').forEach(el => {
+      if (el.matches('nav a')) return;
+      el.classList.add('sd-magnetic');
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left+r.width/2)) / Math.max(r.width,1);
+        const dy = (e.clientY - (r.top+r.height/2)) / Math.max(r.height,1);
+        el.style.transform = `translate(${dx*3}px, ${dy*3}px)`;
+      });
+      el.addEventListener('pointerleave', () => el.style.transform = '');
+    });
+  }
+
+  // A small "keep going" cue appears only after the visitor has actually explored.
+  const cue = document.createElement('div');
+  cue.className = 'sd-reading-cue';
+  cue.textContent = 'Keep exploring';
+  Object.assign(cue.style, {
+    position:'fixed', left:'50%', bottom:'22px', transform:'translate(-50%, 8px)',
+    zIndex:'20', fontSize:'11px', letterSpacing:'.16em', textTransform:'uppercase',
+    pointerEvents:'none'
+  });
+  document.body.appendChild(cue);
+
+  let timer;
+  window.addEventListener('scroll', () => {
+    clearTimeout(timer);
+    if (window.scrollY > 260) {
+      cue.classList.add('visible');
+      timer = setTimeout(() => cue.classList.remove('visible'), 1100);
+    }
+  }, {passive:true});
+})();
+</script>
+
+<script id="sd-performance-cleanup-js">
+(() => {
+  // Keep background animation from consuming resources while the tab is hidden.
+  document.addEventListener('visibilitychange', () => {
+    document.documentElement.classList.toggle('sd-page-hidden', document.hidden);
+  }, {passive:true});
+})();
+</script>
+<style>.sd-page-hidden [class*="ambient"], .sd-page-hidden [class*="leaf"], .sd-page-hidden [class*="cloud"], .sd-page-hidden [class*="bird"], .sd-page-hidden [class*="wind"] { animation-play-state: paused !important; }</style>
+
+<script id="sd-production-guard">
+(() => {
+  document.documentElement.classList.add('sd-production');
+  document.addEventListener('visibilitychange', () => {
+    document.documentElement.classList.toggle('sd-tab-hidden', document.hidden);
+  });
 })();
 </script>
 
