@@ -1095,21 +1095,93 @@ input {
 }
 
 
-/* STEP 3 — Living world: always-on leaves + touch petals */
+/* STEP 4 — BREEZE ENGINE: the world keeps moving, gently responds to you */
 .living-leaves-layer,
-.touch-petals-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9990}
-.living-leaf{position:absolute;top:-12vh;left:-10vw;width:18px;height:9px;border-radius:100% 0 100% 0;background:currentColor;opacity:.42;filter:blur(.15px);animation:leafJourney var(--leaf-duration) linear infinite;animation-delay:var(--leaf-delay);transform:rotate(25deg)}
-.living-leaf::after{content:"";position:absolute;width:1px;height:13px;background:currentColor;left:50%;top:1px;transform:rotate(35deg);opacity:.45}
-@keyframes leafJourney{0%{transform:translate3d(-8vw,-10vh,0) rotate(10deg) scale(var(--leaf-scale));opacity:0}8%{opacity:.42}35%{transform:translate3d(28vw,28vh,0) rotate(120deg) scale(var(--leaf-scale))}68%{transform:translate3d(68vw,62vh,0) rotate(245deg) scale(var(--leaf-scale))}100%{transform:translate3d(118vw,112vh,0) rotate(390deg) scale(var(--leaf-scale));opacity:0}}
-.touch-petal{position:absolute;width:11px;height:7px;border-radius:100% 0 100% 0;background:currentColor;opacity:.75;animation:petalFall 2.8s ease-out forwards;transform-origin:center;box-shadow:0 0 8px rgba(255,255,255,.08)}
-@keyframes petalFall{0%{transform:translate3d(0,0,0) rotate(0deg) scale(.55);opacity:0}12%{opacity:.8}55%{transform:translate3d(var(--petal-x),42vh,0) rotate(170deg) scale(1)}100%{transform:translate3d(calc(var(--petal-x) * 1.25),105vh,0) rotate(420deg) scale(.75);opacity:0}}
-@media (prefers-reduced-motion:reduce){.living-leaf{animation:none;opacity:0}.touch-petal{animation:none;display:none}}
-
+.touch-petals-layer{
+  position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9990;
+}
+.living-leaves-layer{isolation:isolate;}
+.living-leaf{
+  position:absolute; top:-12vh; left:-12vw;
+  width:18px; height:9px;
+  border-radius:100% 0 100% 0;
+  background:currentColor;
+  opacity:.38;
+  filter:blur(.12px);
+  will-change:transform,opacity;
+  animation:leafJourney var(--leaf-duration) linear infinite;
+  animation-delay:var(--leaf-delay);
+}
+.living-leaf::before{
+  content:""; position:absolute; inset:0;
+  border-radius:inherit;
+  background:currentColor;
+  transform:translateX(-2px) rotate(22deg) scale(.72);
+  opacity:.5;
+}
+.living-leaf::after{
+  content:""; position:absolute;
+  width:1px; height:14px;
+  background:currentColor;
+  left:50%; top:0;
+  transform:rotate(38deg);
+  opacity:.38;
+}
+@keyframes leafJourney{
+  0%{transform:translate3d(-12vw,-10vh,0) rotate(8deg) scale(var(--leaf-scale));opacity:0}
+  7%{opacity:var(--leaf-opacity,.42)}
+  20%{transform:translate3d(9vw,16vh,0) rotate(82deg) scale(var(--leaf-scale))}
+  42%{transform:translate3d(38vw,31vh,0) rotate(175deg) scale(var(--leaf-scale))}
+  64%{transform:translate3d(64vw,57vh,0) rotate(268deg) scale(var(--leaf-scale))}
+  82%{transform:translate3d(88vw,75vh,0) rotate(338deg) scale(var(--leaf-scale))}
+  100%{transform:translate3d(120vw,112vh,0) rotate(430deg) scale(var(--leaf-scale));opacity:0}
+}
+.living-leaves-layer.gust .living-leaf{
+  animation-duration:calc(var(--leaf-duration) * .62);
+}
+.touch-petal{
+  position:absolute; width:11px; height:7px;
+  border-radius:100% 0 100% 0;
+  background:currentColor;
+  opacity:.78;
+  will-change:transform,opacity;
+  animation:petalFall var(--petal-duration,3.1s) cubic-bezier(.2,.65,.25,1) forwards;
+  transform-origin:center;
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,.08));
+}
+@keyframes petalFall{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(.45);opacity:0}
+  12%{opacity:.82}
+  42%{transform:translate3d(calc(var(--petal-x) * .42),38vh,0) rotate(145deg) scale(1)}
+  72%{transform:translate3d(calc(var(--petal-x) * .82),69vh,0) rotate(275deg) scale(.9)}
+  100%{transform:translate3d(var(--petal-x),108vh,0) rotate(460deg) scale(.68);opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .living-leaf{animation:none;opacity:0}
+  .touch-petal{animation:none;display:none}
+}
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style id="san-deep-ambient-world">
+#ambient-world{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.ambient-leaf{position:absolute;left:-12vw;top:var(--top);width:var(--size);height:calc(var(--size)*.62);opacity:var(--opacity);transform:rotate(var(--rot));animation:ambientLeaf var(--duration) linear var(--delay) infinite}
+.ambient-leaf::before{content:"";position:absolute;inset:0;background:currentColor;border-radius:100% 0 100% 0;transform:rotate(25deg)}
+.ambient-leaf::after{content:"";position:absolute;width:55%;height:1px;left:22%;top:52%;background:currentColor;opacity:.45}
+.ambient-cloud{position:absolute;top:var(--top);left:-25vw;width:var(--width);height:var(--height);border-radius:999px;background:rgba(255,255,255,.045);filter:blur(8px);animation:ambientCloud var(--duration) linear var(--delay) infinite}
+.ambient-bird{position:absolute;left:-10vw;top:var(--top);width:32px;height:16px;opacity:.25;animation:ambientBird var(--duration) linear var(--delay) infinite}
+.ambient-bird::before,.ambient-bird::after{content:"";position:absolute;top:6px;width:15px;height:7px;border-top:1.5px solid currentColor;border-radius:50% 50% 0 0}
+.ambient-bird::before{left:0;transform:rotate(14deg)} .ambient-bird::after{right:0;transform:rotate(-14deg)}
+@keyframes ambientLeaf{0%{translate:0 0;rotate:0deg}25%{translate:25vw 9vh;rotate:100deg}50%{translate:53vw -2vh;rotate:210deg}75%{translate:78vw 13vh;rotate:300deg}100%{translate:118vw 5vh;rotate:420deg}}
+@keyframes ambientCloud{from{translate:0 0}to{translate:150vw 0}}
+@keyframes ambientBird{0%{translate:0 0;scale:.8}45%{translate:55vw -5vh;scale:1}100%{translate:120vw 3vh;scale:.9}}
+@media(max-width:640px){.ambient-cloud{opacity:.7}.ambient-bird{opacity:.18}}
+@media(prefers-reduced-motion:reduce){.ambient-leaf,.ambient-cloud,.ambient-bird{animation:none}}
+</style>
+
 </head>
 
 
@@ -1631,7 +1703,7 @@ input {
     <h2>Do Not Borrow Your Whole Life From Other People</h2>
     <div class="reader-byline">By <strong>San Deep</strong> · San Deep Talks</div>
     <div class="article-body">
-        <p>Someone tells you what a successful person looks like.</p><div class="pullquote">Someone tells you what a good relationship looks like.</div><p>Someone tells you what you should believe.</p><p>Someone tells you what job you should take.</p><p>After hearing these messages for years, it can become difficult to know which desires are actually yours.</p><p>Questioning does not mean disrespect.</p><p>It means becoming responsible for your own life.</p><p>Ask:</p><p>“Do I want this, or have I simply learned to want it?”</p><p>That question can be uncomfortable.</p><p>Maybe you discover that you do not want the lifestyle you were chasing.</p><p>Maybe you discover that you actually do.</p><p>Either way, you are clearer.</p><p>Krishnamurti&#39;s work strongly challenged the habit of simply accepting inherited authority and encouraged direct inquiry. Osho&#39;s work also repeatedly emphasized experimenting and experiencing rather than merely collecting borrowed beliefs. citeturn0search24turn0search1</p><p>The point is not to reject every tradition.</p><p>The point is to look.</p><p>A belief should be able to survive a sincere question.</p><p>And your life should be something you participate in consciously, not something you perform because everyone else is watching.</p>
+        <p>Someone tells you what a successful person looks like.</p><div class="pullquote">Someone tells you what a good relationship looks like.</div><p>Someone tells you what you should believe.</p><p>Someone tells you what job you should take.</p><p>After hearing these messages for years, it can become difficult to know which desires are actually yours.</p><p>Questioning does not mean disrespect.</p><p>It means becoming responsible for your own life.</p><p>Ask:</p><p>“Do I want this, or have I simply learned to want it?”</p><p>That question can be uncomfortable.</p><p>Maybe you discover that you do not want the lifestyle you were chasing.</p><p>Maybe you discover that you actually do.</p><p>Either way, you are clearer.</p><p>Krishnamurti&#39;s work strongly challenged the habit of simply accepting inherited authority and encouraged direct inquiry. Osho&#39;s work also repeatedly emphasized experimenting and experiencing rather than merely collecting borrowed beliefs. </p><p>The point is not to reject every tradition.</p><p>The point is to look.</p><p>A belief should be able to survive a sincere question.</p><p>And your life should be something you participate in consciously, not something you perform because everyone else is watching.</p>
     </div>
     <div class="article-note">A San Deep Talks reflection on independent thinking, inherited beliefs, and personal responsibility.</div>
 </article>
@@ -1762,48 +1834,18 @@ filterButtons.forEach(button => {
 </script>
 
 
-<script>
-(function(){
-  const leafLayer=document.createElement('div');
-  leafLayer.className='living-leaves-layer';
-  document.body.appendChild(leafLayer);
-  const leafChars=12;
-  for(let i=0;i<leafChars;i++){
-    const leaf=document.createElement('span');
-    leaf.className='living-leaf';
-    leaf.style.left=(Math.random()*100-10)+'vw';
-    leaf.style.setProperty('--leaf-duration',(13+Math.random()*16)+'s');
-    leaf.style.setProperty('--leaf-delay',(-Math.random()*18)+'s');
-    leaf.style.setProperty('--leaf-scale',(0.65+Math.random()*0.8).toFixed(2));
-    leaf.style.color=['#6f8f63','#879f72','#a0ad7b','#c2b58a'][Math.floor(Math.random()*4)];
-    leafLayer.appendChild(leaf);
-  }
 
-  const petalLayer=document.createElement('div');
-  petalLayer.className='touch-petals-layer';
-  document.body.appendChild(petalLayer);
-  let lastTouch=0;
-  function petals(x,y,count=7){
-    const now=Date.now();
-    if(now-lastTouch<120) return;
-    lastTouch=now;
-    for(let i=0;i<count;i++){
-      const p=document.createElement('span');
-      p.className='touch-petal';
-      p.style.left=(x+(Math.random()*36-18))+'px';
-      p.style.top=(y+(Math.random()*18-9))+'px';
-      p.style.setProperty('--petal-x',(Math.random()*180-90)+'px');
-      p.style.animationDuration=(2.3+Math.random()*1.5)+'s';
-      p.style.animationDelay=(Math.random()*.18)+'s';
-      p.style.color=['#e9b7bd','#f1c8ce','#f4d7cf','#d9a6b2'][Math.floor(Math.random()*4)];
-      petalLayer.appendChild(p);
-      setTimeout(()=>p.remove(),4300);
-    }
-  }
-  window.addEventListener('pointerdown',e=>petals(e.clientX,e.clientY,9),{passive:true});
-  window.addEventListener('touchstart',e=>{
-    const t=e.touches[0]; if(t) petals(t.clientX,t.clientY,10);
-  },{passive:true});
+
+
+<script id="san-deep-ambient-engine">
+(()=>{const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return;
+const root=document.createElement('div');root.id='ambient-world';document.body.appendChild(root);
+const leafCount=innerWidth<641?7:11, cloudCount=innerWidth<641?3:5, birdCount=innerWidth<641?2:3;
+const rand=(a,b)=>Math.random()*(b-a)+a;
+for(let i=0;i<leafCount;i++){const e=document.createElement('span');e.className='ambient-leaf';e.style.setProperty('--top',rand(8,88)+'vh');e.style.setProperty('--size',rand(13,27)+'px');e.style.setProperty('--opacity',rand(.10,.28));e.style.setProperty('--rot',rand(-40,40)+'deg');e.style.setProperty('--duration',rand(18,34)+'s');e.style.setProperty('--delay',rand(-30,0)+'s');e.style.color='rgba(150,170,125,.75)';root.appendChild(e)}
+for(let i=0;i<cloudCount;i++){const e=document.createElement('span');e.className='ambient-cloud';e.style.setProperty('--top',rand(8,42)+'vh');e.style.setProperty('--width',rand(110,240)+'px');e.style.setProperty('--height',rand(28,58)+'px');e.style.setProperty('--duration',rand(75,125)+'s');e.style.setProperty('--delay',rand(-100,0)+'s');root.appendChild(e)}
+for(let i=0;i<birdCount;i++){const e=document.createElement('span');e.className='ambient-bird';e.style.setProperty('--top',rand(15,48)+'vh');e.style.setProperty('--duration',rand(32,52)+'s');e.style.setProperty('--delay',rand(-45,0)+'s');root.appendChild(e)}
+addEventListener('pointerdown',()=>root.animate([{transform:'translateX(0)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:700,easing:'ease-out'}),{passive:true});
 })();
 </script>
 
